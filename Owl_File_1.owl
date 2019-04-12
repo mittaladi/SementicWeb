@@ -1,0 +1,212 @@
+Prefix(:=<http://www.spotifytracks.org/2019/ontology#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://www.spotifytracks.org/2019/ontology>
+
+Declaration(Class(:Acousticness))
+Declaration(Class(:Artist))
+Declaration(Class(:AudioFeatures))
+Declaration(Class(:Details))
+Declaration(Class(:Duration))
+Declaration(Class(:Genre))
+Declaration(Class(:Instrumentalness))
+Declaration(Class(:Loudness))
+Declaration(Class(:Mode))
+Declaration(Class(:Name))
+Declaration(Class(:Speechiness))
+Declaration(Class(:Tempo))
+Declaration(Class(:TimeSignature))
+Declaration(Class(:Track))
+Declaration(Class(:TrackName))
+Declaration(ObjectProperty(:hasAcousticness))
+Declaration(ObjectProperty(:hasArtist))
+Declaration(ObjectProperty(:hasAudioFeatures))
+Declaration(ObjectProperty(:hasDetails))
+Declaration(ObjectProperty(:hasDuration))
+Declaration(ObjectProperty(:hasGenre))
+Declaration(ObjectProperty(:hasInstrumentalness))
+Declaration(ObjectProperty(:hasLoudness))
+Declaration(ObjectProperty(:hasMode))
+Declaration(ObjectProperty(:hasName))
+Declaration(ObjectProperty(:hasSpeechiness))
+Declaration(ObjectProperty(:hasTempo))
+Declaration(ObjectProperty(:hasTimeSignature))
+Declaration(DataProperty(:artistName))
+Declaration(DataProperty(:audienceNumber))
+Declaration(DataProperty(:danceability))
+Declaration(DataProperty(:liveness))
+Declaration(DataProperty(:popularity))
+Declaration(DataProperty(:valence))
+Declaration(NamedIndividual(:major))
+Declaration(NamedIndividual(:minor))
+############################
+#   Object Properties
+############################
+
+# Object Property: :hasAcousticness (:hasAcousticness)
+
+SubObjectPropertyOf(:hasAcousticness :hasAudioFeatures)
+
+# Object Property: :hasArtist (:hasArtist)
+
+SubObjectPropertyOf(:hasArtist owl:topObjectProperty)
+
+# Object Property: :hasAudioFeatures (:hasAudioFeatures)
+
+ObjectPropertyDomain(:hasAudioFeatures ObjectAllValuesFrom(:hasAudioFeatures :Track))
+ObjectPropertyRange(:hasAudioFeatures ObjectAllValuesFrom(:hasAudioFeatures :AudioFeatures))
+
+# Object Property: :hasDetails (:hasDetails)
+
+SubObjectPropertyOf(:hasDetails owl:topObjectProperty)
+
+# Object Property: :hasDuration (:hasDuration)
+
+SubObjectPropertyOf(:hasDuration :hasDetails)
+
+# Object Property: :hasGenre (:hasGenre)
+
+ObjectPropertyDomain(:hasGenre ObjectAllValuesFrom(:hasAudioFeatures :Track))
+ObjectPropertyRange(:hasGenre ObjectAllValuesFrom(:hasGenre :Genre))
+
+# Object Property: :hasInstrumentalness (:hasInstrumentalness)
+
+SubObjectPropertyOf(:hasInstrumentalness :hasAudioFeatures)
+
+# Object Property: :hasLoudness (:hasLoudness)
+
+SubObjectPropertyOf(:hasLoudness :hasAudioFeatures)
+
+# Object Property: :hasMode (:hasMode)
+
+SubObjectPropertyOf(:hasMode :hasAudioFeatures)
+
+# Object Property: :hasName (:hasName)
+
+ObjectPropertyDomain(:hasName ObjectAllValuesFrom(:hasName :Track))
+ObjectPropertyRange(:hasName ObjectAllValuesFrom(:hasName :TrackName))
+
+# Object Property: :hasSpeechiness (:hasSpeechiness)
+
+SubObjectPropertyOf(:hasSpeechiness :hasAudioFeatures)
+
+# Object Property: :hasTempo (:hasTempo)
+
+SubObjectPropertyOf(:hasTempo :hasAudioFeatures)
+
+# Object Property: :hasTimeSignature (:hasTimeSignature)
+
+SubObjectPropertyOf(:hasTimeSignature :hasDetails)
+
+
+############################
+#   Data Properties
+############################
+
+# Data Property: :artistName (:artistName)
+
+DataPropertyDomain(:artistName :Artist)
+DataPropertyRange(:artistName xsd:string)
+
+# Data Property: :danceability (:danceability)
+
+DataPropertyDomain(:danceability :Track)
+DataPropertyRange(:danceability DatatypeRestriction(xsd:double xsd:minInclusive "0.0"^^xsd:double xsd:maxInclusive "1.0"^^xsd:double))
+
+# Data Property: :liveness (:liveness)
+
+SubDataPropertyOf(:liveness :audienceNumber)
+DataPropertyDomain(:liveness :Track)
+DataPropertyRange(:liveness xsd:double)
+DataPropertyRange(:liveness DatatypeRestriction(xsd:double xsd:minInclusive "0.0"^^xsd:double xsd:maxInclusive "1.0"^^xsd:double))
+
+# Data Property: :popularity (:popularity)
+
+SubDataPropertyOf(:popularity :audienceNumber)
+DataPropertyDomain(:popularity :Track)
+DataPropertyRange(:popularity DatatypeRestriction(xsd:integer xsd:minInclusive "0"^^xsd:integer xsd:maxInclusive "100"^^xsd:integer))
+
+# Data Property: :valence (:valence)
+
+DataPropertyDomain(:valence :Track)
+DataPropertyRange(:valence xsd:decimal)
+
+
+############################
+#   Datatypes
+############################
+
+# Datatype: xsd:decimal (xsd:decimal)
+
+DatatypeDefinition(xsd:decimal DatatypeRestriction(xsd:double xsd:minInclusive "0.0"^^xsd:double xsd:maxInclusive "1.0"^^xsd:double))
+
+
+############################
+#   Classes
+############################
+
+# Class: :Acousticness (:Acousticness)
+
+SubClassOf(:Acousticness :AudioFeatures)
+
+# Class: :Details (:Details)
+
+EquivalentClasses(:Details ObjectSomeValuesFrom(:hasDuration :Duration))
+
+# Class: :Duration (:Duration)
+
+EquivalentClasses(:Duration ObjectAllValuesFrom(:hasDuration :Track))
+SubClassOf(:Duration :Details)
+DisjointClasses(:Duration :TimeSignature)
+
+# Class: :Instrumentalness (:Instrumentalness)
+
+SubClassOf(:Instrumentalness :AudioFeatures)
+
+# Class: :Loudness (:Loudness)
+
+SubClassOf(:Loudness :AudioFeatures)
+DisjointClasses(:Loudness :Mode)
+
+# Class: :Mode (:Mode)
+
+SubClassOf(:Mode :AudioFeatures)
+
+# Class: :Speechiness (:Speechiness)
+
+SubClassOf(:Speechiness :AudioFeatures)
+
+# Class: :Tempo (:Tempo)
+
+SubClassOf(:Tempo :AudioFeatures)
+
+# Class: :TimeSignature (:TimeSignature)
+
+SubClassOf(:TimeSignature :Details)
+
+# Class: :Track (:Track)
+
+EquivalentClasses(:Track ObjectSomeValuesFrom(:hasName :Name))
+EquivalentClasses(:Track ObjectAllValuesFrom(:hasGenre :Genre))
+EquivalentClasses(:Track DataSomeValuesFrom(:artistName xsd:string))
+
+
+############################
+#   Named Individuals
+############################
+
+# Individual: :major (:major)
+
+ClassAssertion(:Mode :major)
+
+# Individual: :minor (:minor)
+
+ClassAssertion(:Mode :minor)
+
+
+)
