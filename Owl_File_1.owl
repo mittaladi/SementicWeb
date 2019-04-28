@@ -14,32 +14,27 @@ Declaration(Class(:AudioFeatures))
 Declaration(Class(:Details))
 Declaration(Class(:Duration))
 Declaration(Class(:Genre))
-Declaration(Class(:InstrumentDetails))
-Declaration(Class(:Instrumentalness))
+Declaration(Class(:Instumentalness))
 Declaration(Class(:Key))
 Declaration(Class(:Loudness))
-Declaration(Class(:Mode))
 Declaration(Class(:Speechiness))
 Declaration(Class(:Tempo))
 Declaration(Class(:TimeSignature))
 Declaration(Class(:Track))
-Declaration(Class(:TrackName))
+Declaration(Class(:Track_ID))
 Declaration(ObjectProperty(:hasAcousticness))
 Declaration(ObjectProperty(:hasArtist))
 Declaration(ObjectProperty(:hasAudioFeatures))
 Declaration(ObjectProperty(:hasDetails))
 Declaration(ObjectProperty(:hasDuration))
-Declaration(ObjectProperty(:hasGenre))
-Declaration(ObjectProperty(:hasInstrumentalDetails))
-Declaration(ObjectProperty(:hasIntrumentalness))
-Declaration(ObjectProperty(:hasKeys))
+Declaration(ObjectProperty(:hasID))
+Declaration(ObjectProperty(:hasInstrumentalness))
+Declaration(ObjectProperty(:hasKey))
 Declaration(ObjectProperty(:hasLoudness))
-Declaration(ObjectProperty(:hasMode))
-Declaration(ObjectProperty(:hasName))
 Declaration(ObjectProperty(:hasSpeechiness))
 Declaration(ObjectProperty(:hasTempo))
 Declaration(ObjectProperty(:hasTimeSignature))
-Declaration(DataProperty(:artistName))
+Declaration(ObjectProperty(:hasTrack))
 Declaration(DataProperty(:audienceNumber))
 Declaration(DataProperty(:danceability))
 Declaration(DataProperty(:energy))
@@ -57,15 +52,6 @@ Declaration(NamedIndividual(:minor))
 
 SubObjectPropertyOf(:hasAcousticness :hasAudioFeatures)
 
-# Object Property: :hasArtist (:hasArtist)
-
-SubObjectPropertyOf(:hasArtist owl:topObjectProperty)
-
-# Object Property: :hasAudioFeatures (:hasAudioFeatures)
-
-ObjectPropertyDomain(:hasAudioFeatures ObjectAllValuesFrom(:hasAudioFeatures :Track))
-ObjectPropertyRange(:hasAudioFeatures ObjectAllValuesFrom(:hasAudioFeatures :AudioFeatures))
-
 # Object Property: :hasDetails (:hasDetails)
 
 SubObjectPropertyOf(:hasDetails owl:topObjectProperty)
@@ -74,35 +60,21 @@ SubObjectPropertyOf(:hasDetails owl:topObjectProperty)
 
 SubObjectPropertyOf(:hasDuration :hasDetails)
 
-# Object Property: :hasGenre (:hasGenre)
+# Object Property: :hasID (:hasID)
 
-ObjectPropertyDomain(:hasGenre ObjectAllValuesFrom(:hasAudioFeatures :Track))
-ObjectPropertyRange(:hasGenre ObjectAllValuesFrom(:hasGenre :Genre))
+SubObjectPropertyOf(:hasID :hasDetails)
 
-# Object Property: :hasInstrumentalDetails (:hasInstrumentalDetails)
+# Object Property: :hasInstrumentalness (:hasInstrumentalness)
 
-SubObjectPropertyOf(:hasInstrumentalDetails :hasAudioFeatures)
+SubObjectPropertyOf(:hasInstrumentalness :hasAudioFeatures)
 
-# Object Property: :hasIntrumentalness (:hasIntrumentalness)
+# Object Property: :hasKey (:hasKey)
 
-SubObjectPropertyOf(:hasIntrumentalness :hasInstrumentalDetails)
-
-# Object Property: :hasKeys (:hasKeys)
-
-SubObjectPropertyOf(:hasKeys :hasInstrumentalDetails)
+SubObjectPropertyOf(:hasKey :hasAudioFeatures)
 
 # Object Property: :hasLoudness (:hasLoudness)
 
 SubObjectPropertyOf(:hasLoudness :hasAudioFeatures)
-
-# Object Property: :hasMode (:hasMode)
-
-SubObjectPropertyOf(:hasMode :hasAudioFeatures)
-
-# Object Property: :hasName (:hasName)
-
-ObjectPropertyDomain(:hasName ObjectAllValuesFrom(:hasName :Track))
-ObjectPropertyRange(:hasName ObjectAllValuesFrom(:hasName :TrackName))
 
 # Object Property: :hasSpeechiness (:hasSpeechiness)
 
@@ -120,11 +92,6 @@ SubObjectPropertyOf(:hasTimeSignature :hasDetails)
 ############################
 #   Data Properties
 ############################
-
-# Data Property: :artistName (:artistName)
-
-DataPropertyDomain(:artistName :Artist)
-DataPropertyRange(:artistName xsd:string)
 
 # Data Property: :danceability (:danceability)
 
@@ -177,36 +144,29 @@ DatatypeDefinition(xsd:decimal DatatypeRestriction(xsd:double xsd:minInclusive "
 
 SubClassOf(:Acousticness :AudioFeatures)
 
-# Class: :Details (:Details)
+# Class: :Artist (:Artist)
 
-EquivalentClasses(:Details ObjectSomeValuesFrom(:hasDuration :Duration))
+EquivalentClasses(:Artist ObjectSomeValuesFrom(:hasTrack :Track))
 
 # Class: :Duration (:Duration)
 
-EquivalentClasses(:Duration ObjectAllValuesFrom(:hasDuration :Track))
 SubClassOf(:Duration :Details)
-DisjointClasses(:Duration :TimeSignature)
 
-# Class: :InstrumentDetails (:InstrumentDetails)
+# Class: :Genre (:Genre)
 
-SubClassOf(:InstrumentDetails :AudioFeatures)
+EquivalentClasses(:Genre ObjectSomeValuesFrom(:hasArtist :Artist))
 
-# Class: :Instrumentalness (:Instrumentalness)
+# Class: :Instumentalness (:Instumentalness)
 
-SubClassOf(:Instrumentalness :InstrumentDetails)
+SubClassOf(:Instumentalness :AudioFeatures)
 
 # Class: :Key (:Key)
 
-SubClassOf(:Key :InstrumentDetails)
+SubClassOf(:Key :AudioFeatures)
 
 # Class: :Loudness (:Loudness)
 
 SubClassOf(:Loudness :AudioFeatures)
-DisjointClasses(:Loudness :Mode)
-
-# Class: :Mode (:Mode)
-
-SubClassOf(:Mode :AudioFeatures)
 
 # Class: :Speechiness (:Speechiness)
 
@@ -222,39 +182,25 @@ SubClassOf(:TimeSignature :Details)
 
 # Class: :Track (:Track)
 
+EquivalentClasses(:Track ObjectSomeValuesFrom(:hasAcousticness :Acousticness))
 EquivalentClasses(:Track ObjectSomeValuesFrom(:hasDuration :Duration))
-EquivalentClasses(:Track ObjectSomeValuesFrom(:hasName :TrackName))
+EquivalentClasses(:Track ObjectSomeValuesFrom(:hasID :Track_ID))
+EquivalentClasses(:Track ObjectSomeValuesFrom(:hasInstrumentalness :Instumentalness))
+EquivalentClasses(:Track ObjectSomeValuesFrom(:hasKey :Key))
+EquivalentClasses(:Track ObjectSomeValuesFrom(:hasLoudness :Loudness))
+EquivalentClasses(:Track ObjectSomeValuesFrom(:hasSpeechiness :Speechiness))
+EquivalentClasses(:Track ObjectSomeValuesFrom(:hasTempo :Tempo))
 EquivalentClasses(:Track ObjectSomeValuesFrom(:hasTimeSignature :TimeSignature))
-EquivalentClasses(:Track ObjectAllValuesFrom(:hasGenre :Genre))
-EquivalentClasses(:Track DataSomeValuesFrom(:artistName xsd:string))
-EquivalentClasses(:Track DataSomeValuesFrom(:liveness owl:rational))
-EquivalentClasses(:Track DataSomeValuesFrom(:popularity owl:rational))
+EquivalentClasses(:Track DataSomeValuesFrom(:danceability xsd:float))
+EquivalentClasses(:Track DataSomeValuesFrom(:energy xsd:float))
+EquivalentClasses(:Track DataSomeValuesFrom(:liveness xsd:float))
+EquivalentClasses(:Track DataSomeValuesFrom(:popularity xsd:integer))
+EquivalentClasses(:Track DataSomeValuesFrom(:valence xsd:float))
 
-# Class: :TrackName (:TrackName)
+# Class: :Track_ID (:Track_ID)
 
-EquivalentClasses(:TrackName ObjectSomeValuesFrom(:hasAcousticness :Acousticness))
-EquivalentClasses(:TrackName ObjectSomeValuesFrom(:hasIntrumentalness :Instrumentalness))
-EquivalentClasses(:TrackName ObjectSomeValuesFrom(:hasKeys :Key))
-EquivalentClasses(:TrackName ObjectSomeValuesFrom(:hasLoudness :Loudness))
-EquivalentClasses(:TrackName ObjectSomeValuesFrom(:hasMode :Mode))
-EquivalentClasses(:TrackName ObjectSomeValuesFrom(:hasSpeechiness :Speechiness))
-EquivalentClasses(:TrackName ObjectSomeValuesFrom(:hasTempo :Tempo))
-EquivalentClasses(:TrackName DataSomeValuesFrom(:danceability owl:rational))
-EquivalentClasses(:TrackName DataSomeValuesFrom(:energy owl:rational))
-EquivalentClasses(:TrackName DataSomeValuesFrom(:valence owl:rational))
+SubClassOf(:Track_ID :Details)
 
-
-############################
-#   Named Individuals
-############################
-
-# Individual: :major (:major)
-
-ClassAssertion(:Mode :major)
-
-# Individual: :minor (:minor)
-
-ClassAssertion(:Mode :minor)
 
 
 )
