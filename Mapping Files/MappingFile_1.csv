@@ -1,0 +1,13 @@
+Class,Column name
+key,key
+Acousticness,acousticness
+Instrumentalness,instrumentalness
+Loudness,loudness
+Mode,mode
+Speechiness,speechiness
+Tempo,tempo
+Duration,duration
+TimeSignature,time_signature
+Genre,genre
+TrackName,track_name
+Track,track_id
